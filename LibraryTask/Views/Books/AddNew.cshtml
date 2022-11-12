@@ -1,0 +1,171 @@
+﻿@model Book;
+@{
+    ViewData["Title"] = "AddNew";
+}
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-4">
+
+        @*<h2>@Localizer.Text("News_List")</h2>*@
+        <p></p>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a  asp-controller="Books" asp-action="Index">Home</a>
+            </li>
+            <li class="breadcrumb-item active">
+                <strong>AddNew</strong>
+            </li>
+        </ol>
+    </div>
+
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox ">
+                <div class="ibox-title">
+                    <h5>AddNew</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+
+                    <form class="m-t" role="form" method="post"  enctype ="multipart/form-data">
+
+
+                        <br />
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <br />
+
+                        <div class="form-group  row">
+                            <label class="col-sm-2 col-form-label">Name</label>
+
+                            <div class="col-sm-10">
+                                <input type="text" asp-for="Name" class="form-control">
+                                <span asp-validation-for="Name" class="text-danger"></span>
+                            </div>
+                           
+                        </div>
+                         <br />
+                        
+                       
+                        <div class="form-group  row">
+                            <label class="col-sm-2 col-form-label">Description</label>
+
+                            <div class="col-sm-10">
+                                <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                                <span asp-validation-for="Description" class="text-danger"></span>
+                            </div>
+                            
+                        </div>
+                         <br />
+                        <div class="form-group  row">
+                            <label class="col-sm-2 col-form-label">Author</label>
+
+                            <div class="col-sm-10">
+                                  <select asp-for="Author_Id"
+                            class="form-control"
+                            asp-items="@(new SelectList(ViewBag.ListofAuthor,"Id", "Name"))"></select>
+                                <span asp-validation-for="Author_Id" class="text-danger"></span>
+                            </div>
+                            
+                        </div>
+                         <br />
+                        <div class="form-group  row">
+                            <label class="col-sm-2 col-form-label">Category</label>
+
+                            <div class="col-sm-10">
+                                  <select asp-for="Category_Id"
+                            class="form-control" 
+                            asp-items="@(new SelectList(ViewBag.ListofCategory,"Id", "Name"))"></select>
+                                <span asp-validation-for="Category_Id" class="text-danger"></span>
+                            </div>
+                            
+                        </div>
+                         <br />
+                      <div class="form-group  row">
+                            <label class="col-sm-2 col-form-label">SubCategory</label>
+
+                            <div class="col-sm-10">
+                                  <select asp-for="SubCategory_Id"
+                            class="form-control"
+                            asp-items="@(new SelectList(string.Empty,"Id", "Name"))"></select>
+                                <span asp-validation-for="SubCategory_Id" class="text-danger"></span>
+                            </div>
+                            
+                        </div>
+
+                       
+                         <br />
+                        <div class="form-group  row">
+                            <label class="col-sm-2 col-form-label">Publish Date</label>
+
+                            <div class="col-sm-10">
+                                <div class="input-group date">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="date" asp-for="PublishDate" class="form-control" value="@DateTime.Now.ToString("dd/MM/yyyy")">
+                                </div>
+                                <span asp-validation-for="PublishDate" class="text-danger"></span>
+                            </div>
+                            
+                        </div>
+                        <br />
+                        <div class="form-group  row">
+                            <label class="col-sm-2 col-form-label">BookCover</label>
+
+                            <div class="col-sm-10">
+                                <input asp-for="Bookimage" type="file" >
+                                
+                            </div>
+                           
+                        </div>
+
+                       
+                        
+
+                        <br />
+
+                        <div class="form-group row">
+                            <div class="col-sm-4 col-sm-offset-2">
+                                <a class="btn btn-white btn-sm"  asp-controller="Books" asp-action="Index">BackToList</a>
+                                <button class="btn btn-primary btn-sm" type="submit">Save</button>
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+ <script type="text/javascript">
+$(document).ready(function() {
+    $('#Category_Id').change(function() {
+        var url = '@Url.Action("GetSubCategory","Books")';
+        $.getJSON(url, { CategoryID: $("#Category_Id").val() }, function(data) {
+            var items = '';
+            $("#SubCategory_Id").empty();
+            $.each(data, function(i, subcategory) {
+                items += "<option value='" + subcategory.value + "'>" + subcategory.text + "</option>";
+            });
+            $('#SubCategory_Id').html(items);
+        });
+    });
+    });
+    </script>
+}

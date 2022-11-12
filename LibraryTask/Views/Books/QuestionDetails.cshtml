@@ -1,0 +1,31 @@
+﻿@model Root;
+@{
+    ViewData["Title"] = "QuestionDetails";
+}
+
+
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-4">
+
+
+        <p></p>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a asp-controller="Books" asp-action="Index">Home</a>
+            </li>
+            <li class="breadcrumb-item active">
+                <strong>QuestionDetails</strong>
+            </li>
+        </ol>
+    </div>
+
+</div>
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-12">
+            <textarea cols="150" rows="150">@(Json.Serialize( Model.items.FirstOrDefault()))</textarea>
+        </div>
+    </div>
+</div>
+
